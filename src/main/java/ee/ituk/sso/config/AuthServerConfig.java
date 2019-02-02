@@ -31,8 +31,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 .scopes("user_info")
                 .autoApprove(true)
                 .redirectUris("http://localhost:8082/ui/login","http://localhost:8083/ui2/login","http://localhost:8082/login")
-                .accessTokenValiditySeconds(3600)
-        ; // 1 hour
+                .accessTokenValiditySeconds(3600*24*7) // 1 week
+        ;
     }
 
 

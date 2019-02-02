@@ -9,7 +9,7 @@ import java.util.ArrayList;
 @Service
 public class UserService {
 
-    User findUserByUsername(String userName) {
+    public User findUserByUsername(String userName) {
         // TODO: remove hardcoded, replace with call to api
         User user = new User();
         user.setUsername("john");

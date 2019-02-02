@@ -1,7 +1,8 @@
-package ee.ituk.sso.service;
+package ee.ituk.sso.security;
 
 import ee.ituk.sso.model.Role;
 import ee.ituk.sso.model.User;
+import ee.ituk.sso.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,6 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
+        System.out.println("Loading....");
         User user = userService.findUserByUsername(username);
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();

@@ -1,5 +1,8 @@
 package ee.ituk.sso.config;
 
+import ee.ituk.sso.security.CustomAuthenticationProvider;
+import ee.ituk.sso.service.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -12,29 +15,30 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Order(1)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception { // @formatter:off
-        http.requestMatchers()
-                .antMatchers("/login", "/oauth/authorize")
-                .and()
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin()
-                .permitAll();
-    }
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception { // @formatter:off
-        auth.inMemoryAuthentication()
-                .withUser("john")
-                .password(passwordEncoder().encode("123"))
-                .roles("USER");
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/login")
+                .permitAll()
+                .and()
+                .formLogin()
+                .permitAll()
+                //.successHandler(successHandler)
+                .and()
+                .csrf()
+                .disable();
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
 
     @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder(11);
     }
 }

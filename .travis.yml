@@ -4,4 +4,4 @@ branches:
   only:
   -master
 script:
-- ./mvnw clean install -B
+  - ./mvnw clean install -B

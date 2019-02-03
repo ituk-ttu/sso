@@ -25,6 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.requestMatchers()
                 .antMatchers("/login", "/oauth/authorize")
+                .antMatchers("/recovery","/recovery/alo")
                 .and()
                 .authorizeRequests()
                 .anyRequest().authenticated()

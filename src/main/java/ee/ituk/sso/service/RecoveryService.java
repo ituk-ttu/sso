@@ -8,17 +8,22 @@ import java.util.UUID;
 
 @Service
 public class RecoveryService {
-    public static Map<String, Integer> recoverySet = new HashMap<>();
 
-    public static String generateUUID(Integer id) {
+    private static Map<String, Integer> recoveryIds;
+
+    private RecoveryService() {
+        recoveryIds = new HashMap<>();
+    }
+
+    public static String generateAndSaveUUID(Integer id) {
         String str = Integer.toString(id);
         String uuid =  UUID.nameUUIDFromBytes(str.getBytes()).toString();
-        recoverySet.put(uuid,id);
+        recoveryIds.put(uuid,id);
         return reformatUUID(uuid);
     }
 
-    private static String reformatUUID(String UUID) {
-        return UUID.replace("-", "%2D");
+    private static String reformatUUID(String uuid) {
+        return uuid.replace("-", "%2D");
     }
 
 
